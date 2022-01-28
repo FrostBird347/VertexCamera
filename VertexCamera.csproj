@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4DDE74B4-E1A5-4421-98E0-B515B793B84A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>VertexCamera</RootNamespace>
+    <AssemblyName>VertexCamera</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Json.Net.Unity3D.9.0.1\lib\net35\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio-Unity">
+      <HintPath>packages\OWML.2.3.1\lib\net48\NAudio-Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="OWML.Common">
+      <HintPath>packages\OWML.2.3.1\lib\net48\OWML.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="OWML.Logging">
+      <HintPath>packages\OWML.2.3.1\lib\net48\OWML.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="OWML.ModHelper.Assets">
+      <HintPath>packages\OWML.2.3.1\lib\net48\OWML.ModHelper.Assets.dll</HintPath>
+    </Reference>
+    <Reference Include="OWML.ModHelper">
+      <HintPath>packages\OWML.2.3.1\lib\net48\OWML.ModHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="OWML.ModHelper.Events">
+      <HintPath>packages\OWML.2.3.1\lib\net48\OWML.ModHelper.Events.dll</HintPath>
+    </Reference>
+    <Reference Include="OWML.ModHelper.Input">
+      <HintPath>packages\OWML.2.3.1\lib\net48\OWML.ModHelper.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="OWML.ModHelper.Interaction">
+      <HintPath>packages\OWML.2.3.1\lib\net48\OWML.ModHelper.Interaction.dll</HintPath>
+    </Reference>
+    <Reference Include="OWML.ModHelper.Menus">
+      <HintPath>packages\OWML.2.3.1\lib\net48\OWML.ModHelper.Menus.dll</HintPath>
+    </Reference>
+    <Reference Include="OWML.Utils">
+      <HintPath>packages\OWML.2.3.1\lib\net48\OWML.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMod.Utils">
+      <HintPath>packages\MonoMod.Utils.22.1.4.3\lib\net452\MonoMod.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMod.RuntimeDetour">
+      <HintPath>packages\MonoMod.RuntimeDetour.22.1.4.3\lib\net452\MonoMod.RuntimeDetour.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>GameResources\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>GameResources\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>packages\HarmonyX.2.8.0\lib\net45\0Harmony.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="VertexCamera.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

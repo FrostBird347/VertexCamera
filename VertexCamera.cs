@@ -46,29 +46,11 @@ namespace VertexCamera
                         CheckMesh(CurrentMesh);
                     }
 
-                    GameObject TempSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                    TempSphere.transform.position = new Vector3(0, 0, 0);
-                    Mesh SphereMesh = TempSphere.GetComponent<MeshFilter>().mesh;
-                    Material DefaultMaterial = TempSphere.GetComponent<MeshRenderer>().material;
-                    Destroy(TempSphere);
-
-                    // https://answers.unity.com/questions/523289/change-size-of-mesh-at-runtime.html
-                    Vector3[] baseVertices;
-                    baseVertices = SphereMesh.vertices;
-                    Vector3[] vertices = new Vector3[baseVertices.Length];
-                    for (var i = 0; i < vertices.Length; i++)
-                    {
-                        var vertex = baseVertices[i];
-                        vertex.x = vertex.x * 2.005f;
-                        vertex.y = vertex.y * 2.005f;
-                        vertex.z = vertex.z * 2.005f;
-
-                        vertices[i] = vertex;
-                    }
-                    SphereMesh.vertices = vertices;
-                    if (false)
-                        SphereMesh.RecalculateNormals();
-                    SphereMesh.RecalculateBounds();
+                    GameObject TempObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    TempObject.transform.position = new Vector3(0, 0, 0);
+                    Mesh SphereMesh = ModHelper.Assets.GetMesh("ModAssets/Sphere.obj");
+                    Material DefaultMaterial = TempObject.GetComponent<MeshRenderer>().material;
+                    Destroy(TempObject);
 
                     foreach (TessellatedSphereRenderer CurrentSphere in FindObjectsOfType<TessellatedSphereRenderer>())
                     {
@@ -127,6 +109,9 @@ namespace VertexCamera
                     break;
                 case "Campfire_Flames":
                     Mesh.gameObject.DestroyAllComponents<MeshRenderer>();
+                    break;
+                case "Props_NOM_Orb":
+                    Mesh.gameObject.transform.localScale = new Vector3(2, 2, 2);
                     break;
                 default:
                     break;

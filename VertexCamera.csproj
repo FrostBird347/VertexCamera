@@ -88,6 +88,9 @@
     <Reference Include="0Harmony">
       <HintPath>packages\HarmonyX.2.8.0\lib\net45\0Harmony.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>GameResources\UnityEngine.ParticleSystemModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="VertexCamera.cs" />

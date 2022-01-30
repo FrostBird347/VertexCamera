@@ -41,9 +41,9 @@ namespace VertexCamera
             ModHelper.Console.WriteLine("Running in game.", MessageType.Info);
             FixCameras();
 
-			switch (LoadManager.GetCurrentScene())
-			{
-				case OWScene.SolarSystem:
+            switch (LoadManager.GetCurrentScene())
+            {
+                case OWScene.SolarSystem:
                     foreach (MeshRenderer CurrentMesh in FindObjectsOfType<MeshRenderer>())
                     {
                         CheckMesh(CurrentMesh);
@@ -79,14 +79,20 @@ namespace VertexCamera
                         CheckSphere(CurrentSphere, SphereMesh, DefaultMaterial, InvertedSphereMesh);
                     }
                     RenderSettings.ambientLight = new Color(0.125f, 0.125f, 0.125f, 1f);
+
+                    foreach (ParticleSystemRenderer CurrentParticle in FindObjectsOfType<ParticleSystemRenderer>())
+                    {
+                        CheckParticle(CurrentParticle);
+                    }
+
                     break;
                 case OWScene.EyeOfTheUniverse:
                     ModHelper.Console.WriteLine("The Eye isn't supported yet!", MessageType.Warning);
                     break;
                 default:
-					break;
-			}
-		}
+                    break;
+            }
+        }
 
         private void FixCameras()
         {
@@ -217,5 +223,12 @@ namespace VertexCamera
             Sphere.gameObject.name += "_DONE";
         }
 
+        private void CheckParticle(ParticleSystemRenderer Particle)
+        {
+            if (Particle.name.StartsWith("ThrusterWash_") || Particle.name.StartsWith("PlayerImpact_") || Particle.name.StartsWith("Waterfall"))
+            {
+                Particle.enabled = false;
+            }
+        }
     }
 }

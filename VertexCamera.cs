@@ -3,6 +3,7 @@ using OWML.ModHelper;
 using OWML.Common;
 using HarmonyLib;
 using UnityEngine;
+using System.Linq;
 
 namespace VertexCamera
 {
@@ -30,6 +31,8 @@ namespace VertexCamera
                 ModHelper.Console.WriteLine("Running on title screen.", MessageType.Info);
                 Camera MenuCam = FindObjectOfType<Camera>();
                 MenuCam.renderingPath = RenderingPath.VertexLit;
+                //MenuCam.backgroundColor = new Color(0.05f, 0.05f, 0.05f, 1f);
+                RenderSettings.ambientLight = new Color(0.125f, 0.125f, 0.125f, 1f);
                 MenuCam.allowHDR = false;
                 FindObjectOfType<StarfieldController>().gameObject.SetActive(false);
                 return;
@@ -49,16 +52,36 @@ namespace VertexCamera
                     GameObject TempObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                     TempObject.transform.position = new Vector3(0, 0, 0);
                     Mesh SphereMesh = ModHelper.Assets.GetMesh("ModAssets/Sphere.obj");
+                    Mesh InvertedSphereMesh = TempObject.GetComponent<MeshFilter>().mesh;
                     Material DefaultMaterial = TempObject.GetComponent<MeshRenderer>().material;
                     Destroy(TempObject);
 
+                    // http://answers.unity.com/answers/523351/view.html
+                    Vector3[] baseVertices = InvertedSphereMesh.vertices;
+                    Vector3[] vertices = new Vector3[baseVertices.Length];
+                    for (var i = 0; i < vertices.Length; i++)
+                    {
+                        var vertex = baseVertices[i];
+                        vertex.x = vertex.x * 2.005f;
+                        vertex.y = vertex.y * 2.005f;
+                        vertex.z = vertex.z * 2.005f;
+
+                        vertices[i] = vertex;
+                    }
+                    InvertedSphereMesh.vertices = vertices;
+                    InvertedSphereMesh.RecalculateBounds();
+
+                    // http://answers.unity.com/answers/476854/view.html
+                    InvertedSphereMesh.triangles = InvertedSphereMesh.triangles.Reverse().ToArray();
+
                     foreach (TessellatedSphereRenderer CurrentSphere in FindObjectsOfType<TessellatedSphereRenderer>())
                     {
-                        CheckSphere(CurrentSphere, SphereMesh, DefaultMaterial);
+                        CheckSphere(CurrentSphere, SphereMesh, DefaultMaterial, InvertedSphereMesh);
                     }
+                    RenderSettings.ambientLight = new Color(0.125f, 0.125f, 0.125f, 1f);
                     break;
                 case OWScene.EyeOfTheUniverse:
-
+                    ModHelper.Console.WriteLine("The Eye isn't supported yet!", MessageType.Warning);
                     break;
                 default:
 					break;
@@ -74,7 +97,8 @@ namespace VertexCamera
                 if (System.Array.IndexOf(CameraNames, CurrentCamera.gameObject.name) != -1)
                 {
                     CurrentCamera.renderingPath = RenderingPath.VertexLit;
-                    CurrentCamera.backgroundColor = new Color(0.05f, 0.05f, 0.05f, 1f);
+                    //if (CurrentCamera.gameObject.name != "HUDCamera")
+                    //    CurrentCamera.backgroundColor = new Color(0.05f, 0.05f, 0.05f, 1f);
                 }
             }
             OWCamera[] OWCameras = FindObjectsOfType<OWCamera>();
@@ -133,13 +157,16 @@ namespace VertexCamera
             }
             try
             {
-                if (Mesh.material.name == "Terrain_QM_CaveTwinSurface_mat" || Mesh.material.name == "Terrain_HCT_Caves_mat" || Mesh.material.name == "Terrain_HCT_Surface_mat" || Mesh.material.name == "Terrain_QM_TT_Cliffs_mat")
+                string[] TwinsNames = new string[] { "Terrain_QM_CaveTwinSurface_mat (Instance)", "Terrain_HCT_Caves_mat (Instance)", "Terrain_HCT_Surface_mat (Instance)", "Terrain_QM_TT_Cliffs_mat (Instance)" };
+                if (System.Array.IndexOf(TwinsNames, Mesh.material.name + " (Instance)") != -1)
+                    Mesh.material.color = new Color(1f, 0.5f, 0.25f, 1f);
+                if (System.Array.IndexOf(TwinsNames, Mesh.material.name) != -1)
                     Mesh.material.color = new Color(1f, 0.5f, 0.25f, 1f);
             }
             catch { }
         }
 
-        private void CheckSphere(TessellatedSphereRenderer Sphere, Mesh SphereMesh, Material DefaultMaterial)
+        private void CheckSphere(TessellatedSphereRenderer Sphere, Mesh SphereMesh, Material DefaultMaterial, Mesh InvertedSphereMesh)
         {
             string[] Spheres = new string[] { "Ocean_GD", "Ocean", "SandSphere", "Surface", "CloudsBottomLayer_QM", "CloudsBottomLayer_GD" };
             if (System.Array.IndexOf(Spheres, Sphere.gameObject.name) != -1)
@@ -164,20 +191,16 @@ namespace VertexCamera
                     break;
                 case "Ocean_GD":
                     Sphere.gameObject.GetComponent<MeshRenderer>().material.color = new Color(0.5f, 0.75f, 0.75f, 0.5f);
-                    Sphere.gameObject.GetComponent<MeshRenderer>().material.EnableKeyword("_EMISSION");
-                    DynamicGI.SetEmissive(Sphere.gameObject.GetComponent<MeshRenderer>(), new Color(0.05f, 0.05f, 0.05f, 1f));
                     break;
                 case "SandSphere":
                     Sphere.gameObject.GetComponent<MeshRenderer>().material.color = new Color(1f, 1f, 0.75f, 1f);
                     break;
                 case "Surface":
                     Sphere.gameObject.GetComponent<MeshRenderer>().material.color = new Color(1f, 0.5f, 0.25f, 1f);
-                    Sphere.gameObject.GetComponent<MeshRenderer>().material.EnableKeyword("_EMISSION");
-                    DynamicGI.SetEmissive(Sphere.gameObject.GetComponent<MeshRenderer>(), new Color(1f, 0.5f, 0.25f, 1f));
+                    Sphere.gameObject.GetComponent<MeshFilter>().mesh = InvertedSphereMesh;
                     break;
                 case "CloudsBottomLayer_QM":
                     Sphere.gameObject.GetComponent<MeshRenderer>().material.color = new Color(0.5f, 0.125f, 0.5f, 0.5f);
-                    Sphere.gameObject.GetComponent<MeshRenderer>().material.EnableKeyword("_EMISSION");
                     break;
                 case "CloudsBottomLayer_GD":
                     Sphere.gameObject.GetComponent<MeshRenderer>().material.color = new Color(0f, 0.75f, 0.25f, 0.5f);

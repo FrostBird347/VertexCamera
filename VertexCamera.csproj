@@ -91,6 +91,9 @@
     <Reference Include="UnityEngine.ParticleSystemModule">
       <HintPath>GameResources\UnityEngine.ParticleSystemModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>GameResources\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="VertexCamera.cs" />

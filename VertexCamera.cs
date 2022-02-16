@@ -159,10 +159,23 @@ namespace VertexCamera
 
         private void CheckMesh(MeshRenderer Mesh)
         {
-            if (Mesh.gameObject.name.StartsWith("Foliage_") || Mesh.gameObject.name.StartsWith("DetailPatch_Foliage_"))
+            var IsTree = false;
+            try
+            {
+                IsTree = Mesh.gameObject.transform.parent.parent.name.StartsWith("Trees_");
+            }
+            catch { }
+            if (IsTree || Mesh.gameObject.name.StartsWith("Foliage_") || Mesh.gameObject.name.StartsWith("DetailPatch_Foliage_") || Mesh.gameObject.name.Contains("_Leaves_"))
             {
                 //Was causing all sorts of issues
                 //Mesh.gameObject.DestroyAllComponents<MeshRenderer>();
+                try
+                {
+                    //Mesh gets replaced when the player leaves and comes back.
+                    //Need to find a permanent solution
+                    Mesh.gameObject.GetComponent<MeshFilter>().mesh = null;
+                }
+                catch { }
                 return;
             }
             switch (Mesh.gameObject.name)

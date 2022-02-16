@@ -62,9 +62,9 @@ namespace VertexCamera
                     for (var i = 0; i < vertices.Length; i++)
                     {
                         var vertex = baseVertices[i];
-                        vertex.x = vertex.x * 2.005f;
-                        vertex.y = vertex.y * 2.005f;
-                        vertex.z = vertex.z * 2.005f;
+                        vertex.x *= 2.005f;
+                        vertex.y *= 2.005f;
+                        vertex.z *= 2.005f;
 
                         vertices[i] = vertex;
                     }
@@ -84,6 +84,40 @@ namespace VertexCamera
                     {
                         CheckParticle(CurrentParticle);
                     }
+
+
+
+                    //TODO: Fix nomai text and decals
+                    //foreach (NomaiTextLine CurrentText in FindObjectsOfType<NomaiTextLine>())
+                    //{
+                    //    try
+                    //    {
+                    //        //CurrentText.gameObject.GetComponent<MeshFilter>().mesh = InvertedSphereMesh;
+                    //        CurrentText.gameObject.GetComponent<MeshRenderer>().material = DefaultMaterial;
+                    //        CurrentText.gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0);
+                    //    }
+                    //    catch { }
+                    //}
+                    //foreach (NomaiWallText CurrentText in FindObjectsOfType<NomaiWallText>())
+                    //{
+                    //    try
+                    //    {
+                    //        //CurrentText.gameObject.GetComponent<MeshFilter>().mesh = InvertedSphereMesh;
+                    //        CurrentText.gameObject.GetComponent<MeshRenderer>().material = DefaultMaterial;
+                    //        CurrentText.gameObject.GetComponent<MeshRenderer>().material.color = new Color(0, 1, 0);
+                    //    }
+                    //    catch { }
+                    //}
+                    //foreach (OWEmissiveRenderer CurrentEmissive in FindObjectsOfType<OWEmissiveRenderer>())
+                    //{
+                    //    try
+                    //    {
+                    //        //CurrentEmissive.gameObject.GetComponent<MeshFilter>().mesh = InvertedSphereMesh;
+                    //        CurrentEmissive.gameObject.GetComponent<MeshRenderer>().material = DefaultMaterial;
+                    //        CurrentEmissive.gameObject.GetComponent<MeshRenderer>().material.color = new Color(0, 1, 0);
+                    //    }
+                    //    catch { }
+                    //}
 
                     break;
                 case OWScene.EyeOfTheUniverse:

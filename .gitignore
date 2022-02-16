@@ -4,6 +4,7 @@
 # Custom stuff
 GameResources/
 !ModAssets/*.obj
+mono_crash*.json
 
 # globs
 Makefile.in
